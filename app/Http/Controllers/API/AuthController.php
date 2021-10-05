@@ -50,7 +50,7 @@ class AuthController extends Controller
             ]);
         }else{
             $user = User::where('email', $request->email)->first();
-            if (!$user || Hash::check($request->password, $user->password)){
+            if (!$user || ! Hash::check($request->password, $user->password)){
                 return response()->json([
                     'status' => 401,
                     'message' => 'Invalid Credentials',
@@ -66,5 +66,13 @@ class AuthController extends Controller
             }
         }
     }
-    
+
+    public function logout(User $user){
+        // auth()->user()->tokens()->delete();
+        $user->tokens()->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Logged out Successfully'
+        ]);
+    }
 }
