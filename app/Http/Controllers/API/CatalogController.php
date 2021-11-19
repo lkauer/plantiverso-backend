@@ -148,4 +148,50 @@ class CatalogController extends Controller
         ]);
     }
 
+    public function getAllCatalogItens(){
+        $catalog = Catalog::all();
+        if($catalog){
+            foreach( $catalog as $cat){
+                if($cat->category_id){
+                    $category = Category::where('id', '=', $cat->category_id)->get(); 
+                    if(isset($category[0])){
+                        $cat->category = $category[0]->name;
+                    }else{
+                        $cat->category = "Nenhuma"; 
+                    }
+                    
+                }else{
+                    $cat->category = "Nenhuma"; 
+                }
+            }
+        }
+        return response()->json([
+            'status' => 200,
+            'catalog'=> $catalog
+        ]);        
+    }
+
+    public function generalSearch($searchContent){
+        $catalog = Catalog::where('description', 'like', '%' . $searchContent. '%')->get();
+        if($catalog){
+            foreach( $catalog as $cat){
+                if($cat->category_id){
+                    $category = Category::where('id', '=', $cat->category_id)->get(); 
+                    if(isset($category[0])){
+                        $cat->category = $category[0]->name;
+                    }else{
+                        $cat->category = "Nenhuma"; 
+                    }
+                    
+                }else{
+                    $cat->category = "Nenhuma"; 
+                }
+            }
+        }
+        return response()->json([
+            'status' => 200,
+            'catalog'=> $catalog
+        ]);        
+    }
+
 }
