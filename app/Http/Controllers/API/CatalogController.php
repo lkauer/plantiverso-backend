@@ -172,7 +172,8 @@ class CatalogController extends Controller
     }
 
     public function generalSearch($searchContent){
-        $catalog = Catalog::where('description', 'like', '%' . $searchContent. '%')->get();
+        $catalog = Catalog::where('description', 'like', '%' . $searchContent. '%')
+                            ->orWhere('name', 'like', '%' . $searchContent. '%')->get();
         if($catalog){
             foreach( $catalog as $cat){
                 if($cat->category_id){
