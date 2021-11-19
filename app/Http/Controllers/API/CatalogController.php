@@ -92,7 +92,7 @@ class CatalogController extends Controller
             'name'=>'required',
             'description'=>'required',
         ]);
-
+        
         if($validator->fails()){
             return response()->json([
                 'status' => 422,
@@ -103,6 +103,14 @@ class CatalogController extends Controller
             if($catalog){
                 $catalog->name = $request->input('name');
                 $catalog->description = $request->input('description');
+                if($request->hasFile('image')){
+                    $file = $request->file('image');
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = time().'.'.$extension;
+                    $file->move('uploads/catalog/', $filename);
+                    $catalog->image = 'uploads/catalog/'. $filename;
+    
+                }
                 $catalog->category_id = ($request->input('category'))? $request->input('category') : 0;
                 $catalog->save();
                 return response()->json([
