@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://plantiverso-backend-2ylj3.ondigitalocean.app'),
 
     'asset_url' => env('ASSET_URL', null),
 
