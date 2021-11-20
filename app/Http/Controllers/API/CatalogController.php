@@ -156,6 +156,7 @@ class CatalogController extends Controller
 
     public function getAllCatalogItens(){
         $catalog = Catalog::all();
+        $user = Auth::user();
         if($catalog){
             foreach( $catalog as $cat){
                 if($cat->category_id){
@@ -169,6 +170,8 @@ class CatalogController extends Controller
                 }else{
                     $cat->category = "Nenhuma"; 
                 }
+                
+                $cat->own_user_id = $user->id;
             }
         }
         return response()->json([
@@ -180,6 +183,8 @@ class CatalogController extends Controller
     public function generalSearch($searchContent){
         $catalog = Catalog::where('description', 'like', '%' . $searchContent. '%')
                             ->orWhere('name', 'like', '%' . $searchContent. '%')->get();
+
+        $user = Auth::user();
         if($catalog){
             foreach( $catalog as $cat){
                 if($cat->category_id){
@@ -193,6 +198,7 @@ class CatalogController extends Controller
                 }else{
                     $cat->category = "Nenhuma"; 
                 }
+                $cat->own_user_id = $user->id;
             }
         }
         return response()->json([

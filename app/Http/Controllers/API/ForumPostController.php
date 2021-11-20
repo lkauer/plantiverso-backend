@@ -49,7 +49,6 @@ class ForumPostController extends Controller
         $user = Auth::user();
         $user->id;
 
-        //ver o 204 do no content
         $validator = Validator::make($request->all(), [
             'content'=>'required',
         ]);

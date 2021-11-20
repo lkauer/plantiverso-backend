@@ -7,6 +7,8 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ForumController;
 use App\Http\Controllers\API\ForumPostController;
 use App\Http\Controllers\API\CatalogController;
+use App\Http\Controllers\API\ChatController;
+use App\Http\Controllers\API\ChatPostController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -49,7 +51,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('store-forum-post', [ForumPostController::class, 'store']);
 
     //Chat
-    // code...
+    Route::get('all-chat-conversations', [ChatController::class, 'index']);
+    Route::post('define-user-chat', [ChatController::class, 'store']);
+    Route::get('open-chat/{id}', [ChatController::class, 'view']);
+    Route::post('store-chat-post', [ChatPostController::class, 'store']);
+    
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
