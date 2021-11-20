@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('view-catalog', [CatalogController::class, 'index']);
     Route::post('store-catalog', [CatalogController::class, 'store']);
     Route::get('edit-catalog/{id}', [CatalogController::class, 'edit']);
-    Route::put('update-catalog/{id}', [CatalogController::class, 'update']);
+    Route::post('update-catalog/{id}', [CatalogController::class, 'update']);
     Route::get('all-catalog-itens', [CatalogController::class, 'getAllCatalogItens']);
     Route::get('general-search/{searchcontent}', [CatalogController::class, 'generalSearch']);
     Route::delete('delete-catalog/{id}', [CategoryController::class, 'destroy']);

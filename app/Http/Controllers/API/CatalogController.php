@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Mockery\Undefined;
 
 class CatalogController extends Controller
 {
@@ -59,8 +60,10 @@ class CatalogController extends Controller
                 $file->move('uploads/catalog/', $filename);
                 $catalog->image = 'uploads/catalog/'. $filename;
 
+            }else{
+                $catalog->image = null;
             }
-            $catalog->category_id = ($request->input('category'))? $request->input('category') : 0;
+            $catalog->category_id = ($request->input('category') != 'undefined')? $request->input('category') : 0;
             $catalog->user_id = $user->id;
             $catalog->save();
             return response()->json([
@@ -88,6 +91,7 @@ class CatalogController extends Controller
     }
 
     public function update(Request $request, $id){
+
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'description'=>'required',
@@ -110,8 +114,10 @@ class CatalogController extends Controller
                     $file->move('uploads/catalog/', $filename);
                     $catalog->image = 'uploads/catalog/'. $filename;
     
+                }else{
+                    $catalog->image = null;
                 }
-                $catalog->category_id = ($request->input('category'))? $request->input('category') : 0;
+                $catalog->category_id = ($request->input('category') != 'undefined')? $request->input('category') : 0;
                 $catalog->save();
                 return response()->json([
                     'status' => 200,
